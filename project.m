@@ -1,35 +1,35 @@
-function varargout = untitled(varargin)
-% UNTITLED MATLAB code for untitled.fig
-%      UNTITLED, by itself, creates a new UNTITLED or raises the existing
+function varargout = project(varargin)
+% PROJECT MATLAB code for project.fig
+%      PROJECT, by itself, creates a new PROJECT or raises the existing
 %      singleton*.
 %
-%      H = UNTITLED returns the handle to a new UNTITLED or the handle to
+%      H = PROJECT returns the handle to a new PROJECT or the handle to
 %      the existing singleton*.
 %
-%      UNTITLED('CALLBACK',hObject,eventData,handles,...) calls the local
-%      function named CALLBACK in UNTITLED.M with the given input arguments.
+%      PROJECT('CALLBACK',hObject,eventData,handles,...) calls the local
+%      function named CALLBACK in PROJECT.M with the given input arguments.
 %
-%      UNTITLED('Property','Value',...) creates a new UNTITLED or raises the
+%      PROJECT('Property','Value',...) creates a new PROJECT or raises the
 %      existing singleton*.  Starting from the left, property value pairs are
-%      applied to the GUI before untitled_OpeningFcn gets called.  An
+%      applied to the GUI before project_OpeningFcn gets called.  An
 %      unrecognized property name or invalid value makes property application
-%      stop.  All inputs are passed to untitled_OpeningFcn via varargin.
+%      stop.  All inputs are passed to project_OpeningFcn via varargin.
 %
 %      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one
 %      instance to run (singleton)".
 %
 % See also: GUIDE, GUIDATA, GUIHANDLES
 
-% Edit the above text to modify the response to help untitled
+% Edit the above text to modify the response to help project
 
-% Last Modified by GUIDE v2.5 10-Jan-2020 21:43:16
+% Last Modified by GUIDE v2.5 18-Apr-2020 16:56:12
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
 gui_State = struct('gui_Name',       mfilename, ...
                    'gui_Singleton',  gui_Singleton, ...
-                   'gui_OpeningFcn', @untitled_OpeningFcn, ...
-                   'gui_OutputFcn',  @untitled_OutputFcn, ...
+                   'gui_OpeningFcn', @project_OpeningFcn, ...
+                   'gui_OutputFcn',  @project_OutputFcn, ...
                    'gui_LayoutFcn',  [] , ...
                    'gui_Callback',   []);
 if nargin && ischar(varargin{1})
@@ -44,19 +44,20 @@ end
 % End initialization code - DO NOT EDIT
 
 
-% --- Executes just before untitled is made visible.
-function untitled_OpeningFcn(hObject, eventdata, handles, varargin)
+% --- Executes just before project is made visible.
+function project_OpeningFcn(hObject, eventdata, handles, varargin)
 
 handles.output = hObject;
 
 guidata(hObject, handles);
 
 % --- Outputs from this function are returned to the command line.
-function varargout = untitled_OutputFcn(hObject, eventdata, handles) 
+function varargout = project_OutputFcn(hObject, eventdata, handles) 
 
 varargout{1} = handles.output;
 
-%%%%%%%%%%%%%%%%%%%%%% PRZYCISKI %%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BUTTONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % --- WCZYTYWANIE OBRAZU
 function pushbutton1_Callback(hObject, eventdata, handles)
@@ -70,12 +71,11 @@ end
 im = imread(path);
 
 im = im2double(im); %konwertujemy na double
-im2 = im;  %backup - do resetowania
+im2 = im;  %backup - przyda sie do resetowania
 axes(handles.axes1);
 imshow(im);
 axes(handles.axes2);
 imhist(im);
-
 
 %PRZYCISK RESET
 function pushbutton2_Callback(hObject, eventdata, handles)
@@ -86,7 +86,6 @@ imshow(im2);
 axes(handles.axes2);
 imhist(im2);
 
-
 % przycisk rgb2gray
 function pushbutton3_Callback(hObject, eventdata, handles)
     global im;
@@ -96,7 +95,6 @@ function pushbutton3_Callback(hObject, eventdata, handles)
     imshow(imgray);
     axes(handles.axes2);
     imhist(imgray);
-
 
 %przycisk zwykla binaryzacja
 function pushbutton4_Callback(hObject, eventdata, handles)
@@ -113,23 +111,11 @@ function pushbutton4_Callback(hObject, eventdata, handles)
     axes(handles.axes2);
     histogram(bim, 'BinEdges',edges);
 
-
 % --- Przycisk binaryzacja otsu.
 function pushbutton5_Callback(hObject, eventdata, handles)
     global im;
     bim = otsu(im);
     edges = linspace(0, 1, 3); % Create 20 bins.
-    axes(handles.axes1);
-    imshow(bim);
-    bim = bim/225;
-    axes(handles.axes2);
-    histogram(bim, 'BinEdges',edges);
-    
-% --- przycisk binaryzacja adaptacyjna
-function pushbutton6_Callback(hObject, eventdata, handles)
-    global im;
-    bim = adaptive(im);
-    edges = linspace(0, 1, 3); 
     axes(handles.axes1);
     imshow(bim);
     bim = bim/225;
@@ -157,11 +143,9 @@ function pushbutton7_Callback(hObject, eventdata, handles)
     imshow(bim);
     axes(handles.axes2);
     histogram(bim, 'BinEdges',edges);  
-
     
     
-    
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SUWAKI %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SLIDERS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function slider1_Callback(hObject, eventdata, handles)
     global im;
@@ -176,7 +160,6 @@ function slider1_Callback(hObject, eventdata, handles)
     imshow(bim);
     axes(handles.axes2);
     histogram(bim, 'BinEdges',edges);
-
 
 function slider2_Callback(hObject, eventdata, handles)
     global im;
@@ -194,7 +177,6 @@ function slider2_Callback(hObject, eventdata, handles)
     axes(handles.axes2);
     histogram(bim, 'BinEdges',edges);
 
-
 function slider3_Callback(hObject, eventdata, handles)
     global im;
     global TR;
@@ -211,7 +193,6 @@ function slider3_Callback(hObject, eventdata, handles)
     axes(handles.axes2);
     histogram(bim, 'BinEdges',edges);
 
-
 function slider4_Callback(hObject, eventdata, handles)
     global im;
     global TR;
@@ -227,11 +208,9 @@ function slider4_Callback(hObject, eventdata, handles)
     imshow(bim);
     axes(handles.axes2);
     histogram(bim, 'BinEdges',edges);
-
     
     
-    
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FUNKCJE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% OUR FUNCTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %funkcja konwertujaca obraz do odcieni szarosci
 function returnedImage = toGray(image)
@@ -244,15 +223,13 @@ function returnedImage = toGray(image)
            returnedImage(x,y) = (R(x,y)*.299)+(G(x,y)*.587)+(B(x,y)*.114);
        end
     end
- 
-    
+  
 %funkcja zwracaj¹ca zbinaryzowany obraz dla zadanego T
 function returnedImage = binarize(image, T)
     returnedImage = image;
     returnedImage(returnedImage > T) = 1;
     returnedImage(returnedImage <=T) = 0;
 
-    
 %funkcja zwracajaj¹ca zbinaryzowany kana³ czerwony dla zadanego T
 function returnedImage = Rbinarize(im, T)
     R = im(:, :, 1);
@@ -263,12 +240,10 @@ function returnedImage = Gbinarize(im, T)
     R = im(:, :, 2);
     returnedImage = binarize(R, T);
     
-    
 %funkcja zwracajaj¹ca zbinaryzowany kana³ niebieski dla zadanego T
 function returnedImage = Bbinarize(im, T)
     R = im(:, :, 3);
     returnedImage = binarize(R, T);
- 
     
 %funkcja zwracaj¹ca sumê logiczn¹ zbinaryzowanego obrazu czerwonego, zielonego i
 %niebieskiego.
@@ -279,7 +254,6 @@ function imageOut = binarizeRGB(imageIn, TR, TG, TB)
     
     imageOut = R|G;
     imageOut = imageOut|B;
-    
     
  function returnedImage = toGrayOtsu(image)
     R = image(:, :, 1);
@@ -339,28 +313,9 @@ function returnedImage = otsu(image)
     end
     
     returnedImage = newImage;
-  
-%adaptive
-function returnedImage = adaptive(im)
-    N = 100;
-    [h, w, d] = size(im);
-    returnedImage = zeros(h, w);
-    N2 = floor(N/2);
-    for i=1+N2:h-N2
-        for j=1+N2 : w-N2
-            im2 = im(i-N2:i+N2 , j-N2:j+N2);
-            treshold = mean(mean(im2)) ;
-            if im(i, j) > treshold
-                returnedImage(i,j) = 1;
-            else
-                returnedImage(i,j) = 0;
-            end
-        end
-    end
-         
     
-        
-%%%%%%%%%%%%%%%%%%%%%  FUNKCJE TWORZACE SUWAKI %%%%%%%%%%%%%%%%%%%%%%
+       
+%%%%%%%%%%%%%%%%%%%%% OTHER %%%%%%%%%%%%%%%%%%%%%%
     
 function slider1_CreateFcn(hObject, eventdata, handles)
 
